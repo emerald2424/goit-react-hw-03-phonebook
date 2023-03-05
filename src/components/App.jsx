@@ -24,60 +24,61 @@ export class App extends Component {
   componentDidMount() {
     const savedContacts = localStorage.getItem('contacts');
     if (savedContacts) {
-      this.setState({contacts: JSON.parse(savedContacts)})
+      this.setState({ contacts: JSON.parse(savedContacts) });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
-  addContact = (contact) => {
-    const names = this.state.contacts.map(contact => contact.name.toLowerCase())
+  addContact = contact => {
+    const names = this.state.contacts.map(contact =>
+      contact.name.toLowerCase()
+    );
     if (names.includes(contact.name.toLowerCase())) {
-      return alert(`${contact.name} is already in contacts`)
+      return alert(`${contact.name} is already in contacts`);
     }
 
     this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
+      contacts: [...prevState.contacts, contact],
     }));
-  }
-  
-  onChange = (e) => {
-    this.setState({filter: e.target.value})
-  }
+  };
+
+  onChange = e => {
+    this.setState({ filter: e.target.value });
+  };
 
   filterContacts = () => {
     const searchedName = this.state.filter.toLowerCase();
     return this.state.contacts.filter(contact =>
       contact.name.toLowerCase().includes(searchedName)
     );
-  }
+  };
 
-  deleteContact = (contactId) => {
-    this.setState(prevState => {
-     return { contacts: prevState.contacts.filter(contact => contact.id !== contactId)} 
-    })
-  }
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
 
-  onBlur = (e) => {
-    this.setState({filter: ''})
-  }
-  
   render() {
     const filteredContacts = this.filterContacts();
+
     return (
       <Layout>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact}>
-        </ContactForm>
+        <ContactForm onSubmit={this.addContact}></ContactForm>
 
         <h2>Contacts</h2>
-        <Filter onSearch={this.onChange} value={this.state.filter} onBlur={this.onBlur}></Filter>
-        <ContactList filteredContacts={filteredContacts} onDelete={this.deleteContact}></ContactList>
-        
+        <Filter onSearch={this.onChange} value={this.state.filter}></Filter>
+        <ContactList
+          filteredContacts={filteredContacts}
+          onDelete={this.deleteContact}
+        ></ContactList>
+
         <GlobalStyle></GlobalStyle>
       </Layout>
     );

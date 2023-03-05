@@ -1,7 +1,7 @@
 import {Label} from './Filter.styled';
 import PropTypes from 'prop-types';
 
-export const Filter = ({ value, onSearch, onBlur }) => {
+export const Filter = ({ value, onSearch }) => {
   return (
       <Label>
       Find contacts by name
@@ -10,7 +10,6 @@ export const Filter = ({ value, onSearch, onBlur }) => {
         name="filter"
         value={value}
         onChange={onSearch}
-        onBlur={onBlur}
       />
       </Label> 
   );
@@ -18,6 +17,5 @@ export const Filter = ({ value, onSearch, onBlur }) => {
 
 Filter.propTypes = {
   value: PropTypes.string.isRequired,
-  onSearch: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired
 }
